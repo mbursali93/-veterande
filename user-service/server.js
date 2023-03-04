@@ -1,11 +1,15 @@
 const express = require("express")
 const mongoose = require("mongoose")
-const doteenv = require("dotenv").config()
+const dotenv = require("dotenv").config()
+const cookieParser = require("cookie-parser")
 
-const ClientRouter = require("./src/routes/client")
+const ClientRouter = require("./src/routes/client-route")
 
 const app = express()
+
+
 app.use(express.json())
+app.use(cookieParser(process.env.COOKIE_SECRET))
 
 //ROUTES
 

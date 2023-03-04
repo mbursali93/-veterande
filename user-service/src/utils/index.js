@@ -5,11 +5,32 @@ module.exports.hashPassword = async (password) => {
     return await bcrypt.hash(password, 10)
 } 
 
-module.exports.generateSignature = async (payload) => {
+module.exports.generateAccessToken = async (payload) => {
     try {
-       return await jwt.sign(payload, "secret", { expiresIn: "15m"})
+       return await jwt.sign(payload, process.env.JWT_ACCESS, { expiresIn: "11m"})
     } catch(e) {
-        console.log(e)
+        
         return e;
     }
 }
+
+module.exports.generateRefreshToken = async (payload) => {
+    try {
+        
+
+       return await jwt.sign(payload, process.env.JWT_REFRESH, { expiresIn: "7d"})
+    } catch(e) {
+        
+        return e;
+    }
+}
+
+module.exports.comparePasswords = async (inputPassword, clientPassword)=> {
+    const hashedInputPassword = await bcrypt.hash(inputPassword, 10)
+    const isSame = await bcrypt.compare(inputPassword, clientPassword)
+    
+    
+    if(isSame) return true;
+    throw new Error("Password is not correct")
+}
+
