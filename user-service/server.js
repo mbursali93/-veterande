@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 const dotenv = require("dotenv").config()
 const cookieParser = require("cookie-parser")
 
-const ClientRouter = require("./src/routes/client-route")
+const AuthRouter = require("./src/routes/auth-route")
 
 const app = express()
 
@@ -13,7 +13,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET))
 
 //ROUTES
 
-app.use("/client/auth", ClientRouter)
+app.use("/auth", AuthRouter)
 
 
 mongoose.connect(process.env.MONGO_URL).then(
@@ -26,3 +26,6 @@ mongoose.connect(process.env.MONGO_URL).then(
 
 const PORT = process.env.PORT || 4001
 app.listen(PORT, ()=> console.log(`User service is running on PORT: ${PORT}`))
+
+
+module.exports = app

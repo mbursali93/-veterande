@@ -19,6 +19,9 @@ class ClientRepository {
         return await Client.findOne({ email })
     }
 
+    async getClientById(id) {
+        return await Client.findById(id)
+    }
     
 } 
 

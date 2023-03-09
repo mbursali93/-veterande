@@ -1,4 +1,4 @@
-const { generateAccessToken, generateRefreshToken } = require("../utils/index")
+const { generateAccessToken, generateRefreshToken, verifyRefreshToken } = require("../utils/index")
 const ClientService = require("../services/client-service")
 
 const service = new ClientService()
@@ -77,21 +77,27 @@ class ClientController {
 
    async refreshToken (req,res) {
     try {
-        const refresh = req.cookies.refreshToken
-        jwt.verify(refresh, process.env.JWT_REFRESH, (err,user) => {
-            if(err) res.status(500).json("Verification Failed!")
-
-            const accessToken = jwt.sign({
-                id: user.id,
-                isAdmin: user.isAdmin
-            }, process.env.JWT_ACCESS, {expiresIn:"11m"})
-
-            res.status(200).json(accessToken)
-        })
+        const refreshToken = req.cookies.refreshToken
+        const token = await verifyRefreshToken(refreshToken)
+        
+        res.status(200).json({token})
         
         
 
     }catch(e) {
+        res.status(500).json(e.message)
+    }
+   }
+
+   async getClient (req,res) {
+    try {
+        const id = req.params.id
+        const user = await service.getClient(id)
+        
+        res.status(200).json(user._doc)
+
+
+    } catch(e) {
         res.status(500).json(e.message)
     }
    }

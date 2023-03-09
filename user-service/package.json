@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "nodemon": "nodemon server.js"
+    "test": "mocha --timeout 10000 --exit src/tests/*js",
+    "nodemon": "nodemon  server.js"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
     "mocha": "^10.2.0",
     "nodemon": "^2.0.20"
   }

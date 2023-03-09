@@ -18,8 +18,14 @@ class ClientService {
         const { email, password } = userInputs
         const user = await this.repository.getClientByEmail(email)
         const isPasswordCorrect = await comparePasswords(password, user.password)
-        if(isPasswordCorrect) return user;
+        if(!isPasswordCorrect) return "password incorrect";
+        return user;
         
+    }
+
+    async getClient(id) {
+        const user = await this.repository.getClientById(id)
+        return user;
     }
 
 }
