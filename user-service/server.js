@@ -17,7 +17,7 @@ app.use("/auth", AuthRouter)
 
 
 mongoose.connect(process.env.MONGO_URL).then(
-    ()=> console.log("database connection is successful")
+    ()=> console.log("database connection is successfull")
 ).catch(
     (e)=> console.log(e.message)
 )
@@ -25,7 +25,7 @@ mongoose.connect(process.env.MONGO_URL).then(
 
 
 const PORT = process.env.PORT || 4001
-app.listen(PORT, ()=> console.log(`User service is running on PORT: ${PORT}`))
+app.listen(0, ()=> console.log(`User service is running on PORT: ${PORT}`))
 
 
 module.exports = app

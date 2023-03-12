@@ -9,8 +9,8 @@ chai.use(chaiHttp)
 chai.should()
 
 const correctUser = {
-    name: process.env.USER,
-    surname: process.env.USER,
+    firstName: process.env.USER,
+    lastName: process.env.USER,
     email: process.env.USER+"@gmail.com",
     password: process.env.USER,
     _id: process.env.USER_ID,
@@ -22,8 +22,8 @@ const wrongUser = {
 }
 
 const emptyUser = {
-    name:"",
-    surname:"",
+    firstName:"",
+    lastName:"",
     email:"",
     password: "",
 }

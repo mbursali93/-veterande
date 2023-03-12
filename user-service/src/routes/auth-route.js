@@ -1,16 +1,16 @@
 const router = require("express").Router()
-const ClientController = require("../controllers/clientController")
+const OwnerController = require("../controllers/ownerController")
 
 
-const client = new ClientController()
+const owner = new OwnerController()
 
 
 //AUTH
 
-router.post("/register", client.register)
-router.post("/login", client.login)
-router.post("/logout", client.logout)
-router.post("/refresh", client.refreshToken)
+router.post("/register", owner.register)
+router.post("/login", owner.login)
+router.post("/logout", owner.logout)
+router.post("/refresh", owner.refreshToken)
 
 
 

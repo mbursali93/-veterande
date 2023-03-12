@@ -1,20 +1,20 @@
 const { generateAccessToken, generateRefreshToken, verifyRefreshToken } = require("../utils/index")
-const ClientService = require("../services/client-service")
+const OwnerService = require("../services/owner-service")
 
-const service = new ClientService()
-class ClientController {
+const service = new OwnerService()
+class OwnerController {
     
    async register(req,res) {
     try {
-        const { name, surname, email, password } = req.body
+        const { firstName, lastName, email, password } = req.body
         const userInputs = {
-            name,
-            surname,
+            firstName,
+            lastName,
             email,
             password
         }
-
         const newUser = await service.Register(userInputs)
+        
 
         const token = await generateAccessToken({
             id: newUser._id
@@ -31,6 +31,7 @@ class ClientController {
         })
         
         
+
         res.status(200).json({...newUser._doc, token})
     } catch(e) {
         
@@ -42,14 +43,15 @@ class ClientController {
    async login (req,res) {
     try {
         const { email, password } = req.body
+
         const userInputs = {
             email,
             password
         }
-       const client = await service.Login(userInputs)
+       const owner = await service.Login(userInputs)
        
-       const token = await generateAccessToken({id: client._id})
-       const refresh = await generateRefreshToken({id: client._id})
+       const token = await generateAccessToken({id: owner._id})
+       const refresh = await generateRefreshToken({id: owner._id})
 
        res.cookie("refreshToken", refresh, {
         path:"/",
@@ -58,7 +60,7 @@ class ClientController {
 
        })
 
-       res.status(200).json({...client._doc, token})
+       res.status(200).json({...owner._doc, token})
 
     } catch(e) {
         
@@ -89,18 +91,7 @@ class ClientController {
     }
    }
 
-   async getClient (req,res) {
-    try {
-        const id = req.params.id
-        const user = await service.getClient(id)
-        
-        res.status(200).json(user._doc)
-
-
-    } catch(e) {
-        res.status(500).json(e.message)
-    }
-   }
+   
 }
 
-module.exports = ClientController;
+module.exports = OwnerController;
