@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 const dotenv = require("dotenv").config()
 const cookieParser = require("cookie-parser")
 
-const AuthRouter = require("./src/routes/ownerAuth-route")
+const AuthRouter = require("./src/routes/auth-route")
 const ownerRouter = require("./src/routes/owner-route")
 
 const app = express()

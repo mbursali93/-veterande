@@ -30,7 +30,7 @@ const vetsSchema = new mongoose.Schema({
 
 }, { timestamps: true })
 
-//module.exports = mongoose.model("vets", vetsSchema )
+module.exports = mongoose.model("vets", vetsSchema )
 
 
 

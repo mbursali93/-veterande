@@ -10,16 +10,17 @@ chai.should()
 
 
 describe("Authorization Unit Tests", ()=> {
-    describe("POST /auth/register", ()=> {
-        it("should not register a user that already exists", (done)=> {
-            chai.request(server).post("/auth/register").send(correctUser).end((err, res)=> {
+    //FOR OWNERS
+    describe("POST /auth/register-owner", ()=> {
+        it("should not register an owner that already exists", (done)=> {
+            chai.request(server).post("/auth/register-owner").send(correctUser).end((err, res)=> {
                 res.should.have.status(500)
                 done()
             })
         })
 
         it("should give an error when a user doesnt fill required informations", (done)=> {
-            chai.request(server).post("/auth/register").send({
+            chai.request(server).post("/auth/register-owner").send({
                 firstName:"",
                 lastName:"",
                 email:"",
@@ -32,9 +33,9 @@ describe("Authorization Unit Tests", ()=> {
         } )
     })
 
-    describe("POST auth/login", ()=> {
+    describe("POST auth/login-owner", ()=> {
         it("login process works perfectly", (done)=> {
-            chai.request(server).post("/auth/login").send(correctUser).end((err,res)=> {
+            chai.request(server).post("/auth/login-owner").send(correctUser).end((err,res)=> {
                 if(err) console.log(err)
 
                 res.should.have.status(200);
@@ -47,7 +48,7 @@ describe("Authorization Unit Tests", ()=> {
         })
 
         it("should not allow wrong credentials", (done)=> {
-            chai.request(server).post("/auth/login").send(wrongUser).end((err,res)=> {
+            chai.request(server).post("/auth/login-owner").send(wrongUser).end((err,res)=> {
                 res.should.have.status(500)
 
                 done()
@@ -55,6 +56,10 @@ describe("Authorization Unit Tests", ()=> {
         })
     })
 
+    //FOR VETS
+
+
+    //COMMON
 
     describe("POST auth/logout", ()=> {
         it("should delete cookies", (done)=> {

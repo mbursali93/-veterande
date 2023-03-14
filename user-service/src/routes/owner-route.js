@@ -1,12 +1,12 @@
 const router = require("express").Router()
 const OwnerController = require("../controllers/ownerController")
-const { verifyOwner } = require("../middlewares/verifyOwner")
+const { verifyUser } = require("../middlewares/verifyUser")
 
 const owner = new OwnerController()
 
 router.get("/:id", owner.getOwnerById)
-router.put("/:id", verifyOwner, owner.changeCredentials)
-router.patch("/:id", verifyOwner, owner.handleOwnedAnimals)
+router.put("/:id", verifyUser, owner.changeCredentials)
+router.patch("/:id", verifyUser, owner.handleOwnedAnimals)
 
 
 

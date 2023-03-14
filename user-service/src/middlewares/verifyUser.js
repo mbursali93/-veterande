@@ -1,7 +1,7 @@
 const { verifyAccessToken } = require("../utils")
 
 
-module.exports.verifyOwner = async (req,res,next)=> {
+module.exports.verifyUser = async (req,res,next)=> {
     
     try {
         const token = req.header("Authorization")
