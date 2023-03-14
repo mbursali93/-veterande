@@ -23,6 +23,23 @@ class OwnerRepository {
     async getOwnerById(id) {
         return await Owner.findById(id)
     }
+
+    async updateOwner({ id, firstName, lastName, password }) {
+        return await Owner.findByIdAndUpdate(id, {
+            $set: {
+                _id:id,
+                firstName,
+                lastName,
+                password
+            }
+        }, { new: true })
+    }
+
+    async updateOwnedAnimals({ id, animals }) {
+        return await Owner.findOneAndUpdate({_id: id }, {
+            animals,
+        }, { new:true })
+    }
     
 } 
 

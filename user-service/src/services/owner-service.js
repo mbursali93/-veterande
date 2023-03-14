@@ -23,6 +23,25 @@ class OwnerService {
         
     }
 
+    async getOwnerById(id) {
+       const user = await this.repository.getOwnerById(id)
+       return user;
+    }
+
+    async updateOwnerCredentials(userInputs) {
+        let hashedPassword;
+        const { id, firstName, lastName, password } = userInputs
+        if(password !== null) {
+           hashedPassword = await hashPassword(password)
+        }
+        const user = await this.repository.updateOwner({ id, firstName, lastName, hashedPassword})
+        return user;
+    }
+
+    async updateOwnedAnimals(userInfos) {
+      return await this.repository.updateOwnedAnimals(userInfos);
+    }
+
    
 
 }

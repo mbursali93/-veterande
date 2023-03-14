@@ -6,7 +6,15 @@ const OwnerSchema = new mongoose.Schema({
     lastName: { type: String, required: true },
     email: { type:String, required:true, unique:true },
     password: { type:String, required:true },
-    animals: { type: Array }
+    animals: [
+        {
+            name: { type: String },
+            specie: { type:String },
+            breed: { type:String },
+            sex: { type:String },
+            age: { type: Number },
+        }
+    ]
 
 }, {timestamps: true })
 

@@ -2,31 +2,12 @@ const chai = require("chai")
 const chaiHttp = require("chai-http")
 const server = require("../../server")
 const { generateRefreshToken } = require("../utils/index")
-
+const { correctUser, wrongUser } = require("./fixtures")
 
 
 chai.use(chaiHttp)
 chai.should()
 
-const correctUser = {
-    firstName: process.env.USER,
-    lastName: process.env.USER,
-    email: process.env.USER+"@gmail.com",
-    password: process.env.USER,
-    _id: process.env.USER_ID,
-}
-
-const wrongUser = {
-    email:"1dsfs",
-    password: "werdg"
-}
-
-const emptyUser = {
-    firstName:"",
-    lastName:"",
-    email:"",
-    password: "",
-}
 
 describe("Authorization Unit Tests", ()=> {
     describe("POST /auth/register", ()=> {
@@ -38,7 +19,13 @@ describe("Authorization Unit Tests", ()=> {
         })
 
         it("should give an error when a user doesnt fill required informations", (done)=> {
-            chai.request(server).post("/auth/register").send(emptyUser).end((err, res)=> {
+            chai.request(server).post("/auth/register").send({
+                firstName:"",
+                lastName:"",
+                email:"",
+                password: "",
+            }).end(
+                (err, res)=> {
                 res.should.have.status(500)
                 done()
             })
@@ -59,7 +46,7 @@ describe("Authorization Unit Tests", ()=> {
             })
         })
 
-        it("should not allow wrong credentials",(done)=> {
+        it("should not allow wrong credentials", (done)=> {
             chai.request(server).post("/auth/login").send(wrongUser).end((err,res)=> {
                 res.should.have.status(500)
 
@@ -90,9 +77,6 @@ describe("Authorization Unit Tests", ()=> {
             })
         })
     })
-
-
-    
 
     
 })

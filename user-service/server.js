@@ -3,7 +3,8 @@ const mongoose = require("mongoose")
 const dotenv = require("dotenv").config()
 const cookieParser = require("cookie-parser")
 
-const AuthRouter = require("./src/routes/auth-route")
+const AuthRouter = require("./src/routes/ownerAuth-route")
+const ownerRouter = require("./src/routes/owner-route")
 
 const app = express()
 
@@ -14,6 +15,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET))
 //ROUTES
 
 app.use("/auth", AuthRouter)
+app.use("/owners", ownerRouter)
 
 
 mongoose.connect(process.env.MONGO_URL).then(

@@ -25,7 +25,7 @@ module.exports.generateRefreshToken = async (payload) => {
     }
 }
 
-module.exports.verifyRefreshToken = async(token) => {
+module.exports.getNewToken = async(token) => {
     return await jwt.verify(token, process.env.JWT_REFRESH, async (err, user)=> {
         if(err) console.log(err)
        const token = await this.generateAccessToken({ id: user._id})
@@ -33,8 +33,14 @@ module.exports.verifyRefreshToken = async(token) => {
     })
 }
 
+module.exports.verifyAccessToken = async (token) => {
+   return await jwt.verify(token, process.env.JWT_ACCESS, (err, user)=> {
+        if(err) throw new Error(err.message)
+        return user;
+    })
+}
+
 module.exports.comparePasswords = async (inputPassword, clientPassword)=> {
-    const hashedInputPassword = await bcrypt.hash(inputPassword, 10)
     const isSame = await bcrypt.compare(inputPassword, clientPassword)
     
     
