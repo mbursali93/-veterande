@@ -48,5 +48,13 @@ module.exports.comparePasswords = async (inputPassword, clientPassword)=> {
     throw new Error("Password is not correct")
 }
 
+module.exports.setCookies = (res, token) => {
+    res.cookie("refreshToken", token, {
+        httpOnly: true,
+        path: "/",
+        maxAge: 1000*60*60*24*7 // 7 days
+    })
+}
+
 
 

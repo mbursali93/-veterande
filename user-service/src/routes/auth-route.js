@@ -9,12 +9,16 @@ const auth = new AuthController()
 
 router.post("/register-owner", auth.registerOwner)
 router.post("/login-owner", auth.loginOwner)
-router.post("/logout", auth.logout)
-router.post("/refresh", auth.refreshToken)
+
 
 //FOR VETS
+router.post("/register-vet", auth.registerVet)
+router.post("/login-vet", auth.loginVet)
 
+//COMMON
 
+router.post("/logout", auth.logout)
+router.post("/refresh", auth.refreshToken)
 
 
 

@@ -2,7 +2,7 @@ const chai = require("chai")
 const chaiHttp = require("chai-http")
 const server = require("../../server")
 const { generateAccessToken } = require("../utils/index")
-const { correctUser, wrongUser } = require("./fixtures")
+const { correctOwner, wrongUser } = require("./fixtures")
 
 chai.use(chaiHttp)
 chai.should()
@@ -13,7 +13,7 @@ describe("Owner functions unit tests", async ()=> {
     const accessToken = await generateAccessToken({ id: process.env.CORRECT_TEST_USER_ID })
     describe(" GET /owners", ()=> {
         it("should get owner with a given id", (done)=> {
-            chai.request(server).get(`/owners/${correctUser._id}`).end((err, res)=> {
+            chai.request(server).get(`/owners/${correctOwner._id}`).end((err, res)=> {
                 res.should.have.status(200);
                 res.body.should.not.have.property("token")
                 res.body.should.have.property("firstName")
@@ -36,8 +36,8 @@ describe("Owner functions unit tests", async ()=> {
 
     describe("PUT /owners:id", ()=> {
         it("should change password of the user", (done)=> {
-            chai.request(server).put(`/owners/${correctUser._id}`)
-            .send(correctUser)
+            chai.request(server).put(`/owners/${correctOwner._id}`)
+            .send(correctOwner)
             .set("Authorization", accessToken)
             .end((err,res)=> {
                 res.should.have.status(200)
@@ -48,7 +48,7 @@ describe("Owner functions unit tests", async ()=> {
 
         it("should give an error when password do not match", (done)=> {
             
-            chai.request(server).put(`/owners/${correctUser._id}`).send(wrongUser)
+            chai.request(server).put(`/owners/${correctOwner._id}`).send(wrongUser)
             .set("Authorization", accessToken)
             .end((err, res)=> {
                 res.should.have.status(500)
@@ -59,7 +59,7 @@ describe("Owner functions unit tests", async ()=> {
 
 
        it("should give an error when there is not a valid jwt access token", (done)=> { 
-                chai.request(server).put(`/owners/${correctUser._id}`).send(correctUser).end((err,res)=> {
+                chai.request(server).put(`/owners/${correctOwner._id}`).send(correctOwner).end((err,res)=> {
                 res.should.have.status(500)
                 done()
             })
@@ -71,8 +71,8 @@ describe("Owner functions unit tests", async ()=> {
     describe("PATCH /owners/:id", ()=> {
         it("should handle owned animals correctly", (done)=> {
             chai.request(server)
-            .patch(`/owners/${correctUser._id}`)
-            .send(correctUser.animals)
+            .patch(`/owners/${correctOwner._id}`)
+            .send(correctOwner.animals)
             .set("Authorization", accessToken)
             .end((err, res)=> {
                 res.should.have.status(200)
@@ -82,7 +82,7 @@ describe("Owner functions unit tests", async ()=> {
 
         it("should give an error when there is not a valid jwt access token", (done)=> {
             chai.request(server)
-            .patch(`/owners/${correctUser._id}`)
+            .patch(`/owners/${correctOwner._id}`)
             .send()
             .end((err, res)=> {
                 res.should.have.status(500)

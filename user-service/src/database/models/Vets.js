@@ -1,26 +1,20 @@
 const mongoose = require("mongoose")
 
 const vetsSchema = new mongoose.Schema({
-    name: { type: String, required:true, unique:true },
-    email: { type: String, required: true, unique:true },
+    name: { type: String, required:true, unique: true },
+    email: { type: String, required: true, unique: true },
     password: { type: String, required:true },
     services: { type: Array, required: true},
-    vets: [
-        {
-            name: {type:String, required: true},
-
-        }
-    ],
     location: {
-        latitute: { type:Number, required: true},
-        longtitute: { type:Number, required: true},
+        latitude: { type:Number, required: true},
+        longtitude: { type:Number, required: true},
 
     },
     address: { type: String, required:true },
 
     comments: [
         {
-            senderInfo: { type: String, required: true},
+            senderInfo: { type: String },
             text: { type: String },
             rating: { type: Number }
         }
