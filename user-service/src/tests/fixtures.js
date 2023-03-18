@@ -18,7 +18,9 @@ const correctVet = {
     password: process.env.CORRECT_TEST_USER,
     latitude: 3242,
     longtitude: 231,
-    address: process.env.CORRECT_TEST_USER
+    address: process.env.CORRECT_TEST_USER,
+    _id: process.env.CORRECT_VET_USER_ID,
+    services: ["cat", "dog"],
 
 }
 

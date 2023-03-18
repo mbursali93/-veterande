@@ -23,6 +23,22 @@ class VetService {
 
         return user;
     }
+
+    async getVetById(id) {
+        const user = await this.repository.getVetById(id)
+        if(!user) return new Error("No user to be found")
+        return user;
+    }
+
+    async updateVetServices(userInputs) {
+        const { id, services } = userInputs;
+        const user = await this.repository.updateVetServices({ id, services })
+        return user;
+    }
+
+    async deleteVet(id) {
+        await this.repository.deleteVet(id)
+    }
 }
 
 module.exports = VetService;
