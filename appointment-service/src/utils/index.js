@@ -1,3 +1,12 @@
+const jwt = require("jsonwebtoken")
+
+module.exports.verifyAccessToken = async (token) => {
+    return await jwt.verify(token, process.env.JWT_ACCESS, (err, user)=> {
+         if(err) throw new Error(err.message)
+         return user;
+     })
+ }
+
 
 module.exports.convertDateToLocalTime = (date, time) => {
     
@@ -14,6 +23,22 @@ module.exports.noMoreThanAMonth = (appointmentDate, currentDate) => {
     const timeDiffAsDays = Math.ceil(timeDiff / (1000 * 3600 * 24))
     
     if(timeDiffAsDays > 30) return false; 
+    return true;
+}
+
+
+module.exports.betweenWorkingHours = (appointmentDate) => {
+    const hour = appointmentDate.getHours()
+
+    
+     if(hour < 11 || hour >= 20) return false; // to fix local time problem
+     return true;
+    
+}
+
+module.exports.minutesValidityCheck = (appointmentDate) => {
+    const minutes = appointmentDate.getMinutes()
+    if(minutes % 10 !== 0) return false;
     return true;
 }
 

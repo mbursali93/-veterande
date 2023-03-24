@@ -26,7 +26,7 @@ app.use("/vets", vetRouter)
 
 
 mongoose.connect(process.env.MONGO_URL).then(
-    ()=> console.log("database connection is successfull")
+    ()=> console.log("database connection is successful")
 ).catch(
     (e)=> console.log(e.message)
 )

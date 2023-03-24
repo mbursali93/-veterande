@@ -1,4 +1,4 @@
-const { convertDateToLocalTime, noMoreThanAMonth } = require("../utils/index")
+const { convertDateToLocalTime, noMoreThanAMonth, betweenWorkingHours, minutesValidityCheck } = require("../utils/index")
 const AppointmentService = require("../services/appointment-service")
 
 const service = new AppointmentService()
@@ -13,14 +13,19 @@ class AppointmentController {
             const appointmentDate = convertDateToLocalTime(date, time)
             const currentLocalDate = convertDateToLocalTime(currentDate)
 
+            const workingHours =  betweenWorkingHours(appointmentDate)
             const timeBetweenIsValid = noMoreThanAMonth(appointmentDate, currentLocalDate)
+            const areMinutesValid = minutesValidityCheck(appointmentDate)
 
-            if(currentLocalDate > appointmentDate) return res.status(500).json("You get get appointment for past time")
+            if(currentLocalDate > appointmentDate) return res.status(500).json("You cant get appointment for past time")
             if(!timeBetweenIsValid) return res.status(500).json("Difference between appointments is more than 30 days")
+            if(!workingHours) return res.status(500).json("Time you choose should be between working hours")
+            if(!areMinutesValid) return res.status(500).json("You cant choose that time")
 
-           const appointment = await service.createAppointment({ ownerId, vetId, date: appointmentDate })
            
-
+           
+            const appointment = await service.createAppointment({ ownerId, vetId, date: appointmentDate })
+           
             res.status(200).json(appointment)
 
 
@@ -28,6 +33,34 @@ class AppointmentController {
             res.status(500).json(e.message)
         }
     }
+
+    async getOwnerAppointments (req,res) {
+        try {
+            const id = req.params.id;
+
+            const appointments = await service.getOwnerAppointments(id)
+
+            res.status(200).json(appointments)
+        } catch(e) {
+            res.status(500).json(e.message)
+        }
+    }
+
+    async getVetAppointments (req,res) {
+        try {
+
+            const id = req.params.id;
+
+            const appointments = await service.getVetAppointments(id)
+
+            res.status(200).json(appointments)
+
+        } catch(e) {
+            res.status(500).json(e.message)
+        }
+    }
+
+    
 }
 
 module.exports = AppointmentController;
