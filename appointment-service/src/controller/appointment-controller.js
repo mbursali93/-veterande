@@ -1,10 +1,12 @@
 const { convertDateToLocalTime, noMoreThanAMonth, betweenWorkingHours, minutesValidityCheck } = require("../utils/index")
 const AppointmentService = require("../services/appointment-service")
+const MessageQueue = require("../utils/message-queue")
 
 const service = new AppointmentService()
+const message = new MessageQueue()
 
 class AppointmentController {
-
+    
     async createAppointment (req,res) {
         try {
             const { ownerId, vetId, date, time } = req.body
@@ -25,6 +27,7 @@ class AppointmentController {
            
            
             const appointment = await service.createAppointment({ ownerId, vetId, date: appointmentDate })
+            await message.sendMessage({vetId, ownerId})
            
             res.status(200).json(appointment)
 
@@ -52,10 +55,13 @@ class AppointmentController {
             const id = req.params.id;
 
             const appointments = await service.getVetAppointments(id)
+            
 
             res.status(200).json(appointments)
+            
 
         } catch(e) {
+
             res.status(500).json(e.message)
         }
     }

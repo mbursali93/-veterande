@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken")
+const amqp = require("amqplib")
+
 
 module.exports.verifyAccessToken = async (token) => {
     return await jwt.verify(token, process.env.JWT_ACCESS, (err, user)=> {
