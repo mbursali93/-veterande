@@ -2,7 +2,7 @@ const express = require("express")
 const mongoose = require("mongoose")
 const dotenv = require("dotenv").config()
 const cors = require("cors")
-const { createChannel } = require("./src/utils")
+
 
 
 const app = express()
@@ -26,9 +26,18 @@ app.use("/appointment", appointmentRouter)
 //DATABASE CONNECTION
 
 mongoose.connect(process.env.MONGO_URL)
-.then(()=>console.log("database connection is successful"))
-.catch((e)=> console.log(e.message))
+.then(
+    ()=>{
+        console.log("database connection is successful")
+        app.emit("database-connection")
+    })
+.catch((e)=> {
+    console.log(e.message)
+    process.exit(1)
+})
 
 
-const PORT = process.env.PORT || 4002
-app.listen(4002, ()=> console.log(`Appointment service is running on PORT: ${PORT}`))
+app.on("database-connection", ()=> {
+    const PORT = process.env.PORT || 4002
+    app.listen(4002, ()=> console.log(`Appointment service is running on PORT: ${PORT}`))
+})

@@ -36,6 +36,15 @@ class VetRepository {
     async deleteVet(id) {
         await Vet.findByIdAndDelete(id)
     }
+
+    async updateVetTotalAppointment(id) {
+        const vet = await this.getVetById(id)
+        let vetAppointments = vet.totalAppointments
+        
+       await Vet.findOneAndUpdate({_id:id}, {
+            totalAppointments: vetAppointments + 1
+        }, { new:true })
+    }
 }
 
 

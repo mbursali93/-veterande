@@ -11,15 +11,18 @@ class MessageQueue {
         this.connection = await amqp.connect(process.env.MESSAGE_QUEUE_URL)
         this.channel = await this.connection.createChannel()
         await this.channel.assertExchange(process.env.EXCHANGE_NAME, "direct", { durable:true })
+       
     }
 
     async publishMessage(message) {
         if (!this.channel) {
             await this.createChannel();
+            
           }
-        
+          
         await this.channel.publish(process.env.EXCHANGE_NAME, process.env.ROUTE_KEY, Buffer.from(JSON.stringify(message)))
-        console.log("message has sent")
+        
+        
     }
 
     async closeChannel() {

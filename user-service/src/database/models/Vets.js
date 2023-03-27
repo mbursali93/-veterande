@@ -19,6 +19,7 @@ const vetsSchema = new mongoose.Schema({
             rating: { type: Number }
         }
     ],
+    totalAppointments: { type:Number, default:0 }
     
 
 

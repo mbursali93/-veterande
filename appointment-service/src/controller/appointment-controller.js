@@ -27,7 +27,7 @@ class AppointmentController {
            
            
             const appointment = await service.createAppointment({ ownerId, vetId, date: appointmentDate })
-            await message.sendMessage({vetId, ownerId})
+            await message.sendMessage(vetId)
            
             res.status(200).json(appointment)
 
@@ -56,7 +56,6 @@ class AppointmentController {
 
             const appointments = await service.getVetAppointments(id)
             
-
             res.status(200).json(appointments)
             
 
