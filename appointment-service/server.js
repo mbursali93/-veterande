@@ -41,3 +41,5 @@ app.on("database-connection", ()=> {
     const PORT = process.env.PORT || 4002
     app.listen(4002, ()=> console.log(`Appointment service is running on PORT: ${PORT}`))
 })
+
+module.exports = app;

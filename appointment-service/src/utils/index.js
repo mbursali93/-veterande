@@ -44,5 +44,13 @@ module.exports.minutesValidityCheck = (appointmentDate) => {
     return true;
 }
 
+module.exports.generateAccessToken = async (payload) => {
+    try {
+       return await jwt.sign(payload, process.env.JWT_ACCESS, { expiresIn: "11m"})
+    } catch(e) {
+        
+        return e;
+    }
+}
 
 
